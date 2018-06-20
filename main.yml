@@ -47,6 +47,7 @@
        lineinfile:
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
          line: "LoadModule headers_module modules/mod_headers.so"
+      ignore_errors: true
 
      - name: creating the httpd folder to be used in the next step
        file:
@@ -70,3 +71,4 @@
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
          line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
          insertafter: "<VirtualHost _default_:443>"
+       ignore_errors: true
