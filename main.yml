@@ -6,14 +6,8 @@
 
 
   tasks:
-
-     - name: Install buildah to get files from the containers
-       yum:
-          name: buildah
-          state: absent
-
      - name: Get running containers to for neutron
-       command: "docker ps -q -f \"name=neutron*\""
+       command: "docker ps -q"
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
