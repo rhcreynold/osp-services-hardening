@@ -6,4 +6,5 @@
 
 
  tasks:
-    - name: ping
+    - name: Testing ping
+      ping:
