@@ -15,8 +15,14 @@
        with_items: "{{ neutron_containers.stdout_lines }}"
        ignore_errors: true
 
-     - name: To disable validation of self-signed certificates
+     - name: To disable validation of self-signed certificates for host
        lineinfile:
          path: /etc/nova/api-paste.ini
          line: "insecure=False"
          insertafter: "[filter:authtoken]"
+
+    - name: To disable validation of self-signed certificates for containers
+      lineinfile:
+        path: /var/lib/config-data/puppet-generated/nova/etc/api-paste.ini
+        line: "insecure=False"
+        insertafter: "[filter:authtoken]"
