@@ -1,6 +1,6 @@
 ---
 - name: This will harden RHOSP services per the Red Hat OSP hardening guide
-  hosts: overcloud
+  hosts: all
   become: yes
 
 
