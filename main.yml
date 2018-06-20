@@ -49,7 +49,7 @@
          line: "LoadModule headers_module modules/mod_headers.so"
 
      - name: creating the httpd folder to be used in the next step
-        file:
+       file:
          path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/
          state: directory
          mode: 0755
