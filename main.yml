@@ -10,14 +10,14 @@
      - name: Install buildah to get files from the containers
        yum:
           name: buildah
-          state: present
+          state: absent
 
      - name: Get running containers to for neutron
        command: "docker ps -q -f \"name=neutron*\""
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
-       command: "buildah copy \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
+       command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
        with_items: "{{ neutron_containers.stdout_lines }}"
 
      - name: To disable validation of self-signed certificates
