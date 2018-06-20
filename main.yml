@@ -17,7 +17,7 @@
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
-       command: "buildah \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
+       command: "buildah copy \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
        with_items: "{{ neutron_containers.stdout_lines }}"
 
      - name: To disable validation of self-signed certificates
