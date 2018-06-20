@@ -1,0 +1,9 @@
+---
+ name: This Will harden RHOSP services per the hardening guide
+ hosts: all
+ become: yes
+ ansible_ssh_user: heat-admin
+
+
+ tasks:
+    - name: ping
