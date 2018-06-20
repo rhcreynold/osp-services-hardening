@@ -28,7 +28,7 @@
          insertafter: "[filter:authtoken]"
 
      - name: creating the httpd folder to be used in the next step
-        file:
+       file:
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/
          state: directory
          mode: 0755
