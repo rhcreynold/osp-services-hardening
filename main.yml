@@ -6,9 +6,9 @@
 
 
   tasks:
-     #- name: Get running container ID
-      # command: "docker ps -q"
-       #register: neutron_containers
+     - name: Get running container ID
+       command: "docker ps -q"
+       register: running_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
        #command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/nova/"
@@ -26,3 +26,47 @@
          path: /var/lib/config-data/puppet-generated/nova/etc/nova/api-paste.ini
          line: "insecure=False"
          insertafter: "[filter:authtoken]"
+
+     - name: creating the httpd folder to be used in the next step
+        file:
+         path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/
+         state: directory
+         mode: 0755
+
+     - name: Get /etc/httpd/conf/httpd.conf from running container to enable of HSTS
+       command: "docker cp \"{{ item }}\":/etc/httpd/conf/httpd.conf /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf/"
+       with_items: "{{ running_containers.stdout_lines }}"
+       ignore_errors: true
+
+     - name: Enable HSTS for host
+       lineinfile:
+         path: /etc/httpd/conf/httpd.conf
+         line: "LoadModule headers_module modules/mod_headers.so"
+
+     - name: Enable HSTS for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
+         line: "LoadModule headers_module modules/mod_headers.so"
+
+     - name: creating the httpd folder to be used in the next step
+        file:
+         path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/
+         state: directory
+         mode: 0755
+
+     - name: Get /etc/httpd/conf.d/ssl.conf from running container to enable of HSTS
+       command: "docker cp \"{{ item }}\":/etc/httpd/conf.d/ssl.conf /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/"
+       with_items: "{{ running_containers.stdout_lines }}"
+       ignore_errors: true
+
+     - name: Enable HSTS for host
+       lineinfile:
+         path: /etc/httpd/conf.d/ssl.conf
+         line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
+         insertafter: "<VirtualHost _default_:443>"
+
+     - name: Enable HSTS for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
+         line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
+         insertafter: "<VirtualHost _default_:443>"
