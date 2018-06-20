@@ -8,6 +8,6 @@
   tasks:
      - name: To disable validation of self-signed certificates
        lineinfile:
-         path: /etc/nova/api-paste.lineinfile
+         path: /etc/nova/api-paste.ini
          line: "insecure=False"
          insertafter: "[filter:authtoken]"
