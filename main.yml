@@ -47,7 +47,7 @@
        lineinfile:
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
          line: "LoadModule headers_module modules/mod_headers.so"
-      ignore_errors: true
+       ignore_errors: true
 
      - name: creating the httpd folder to be used in the next step
        file:
