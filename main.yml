@@ -11,7 +11,7 @@
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
-       command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
+       command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/nova/"
        with_items: "{{ neutron_containers.stdout_lines }}"
        ignore_errors: true
 
