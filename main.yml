@@ -22,7 +22,7 @@
          insertafter: "[filter:authtoken]"
 
      - name: To disable validation of self-signed certificates for containers
-      lineinfile:
-        path: /var/lib/config-data/puppet-generated/nova/etc/api-paste.ini
-        line: "insecure=False"
-        insertafter: "[filter:authtoken]"
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/nova/etc/api-paste.ini
+         line: "insecure=False"
+         insertafter: "[filter:authtoken]"
