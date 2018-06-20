@@ -2,7 +2,7 @@
 - name: This Will harden RHOSP services per the hardening guide
   hosts: all
   become: yes
-  ansible_ssh_user: heat-admin
+  ansible_user: heat-admin
 
 
   tasks:
