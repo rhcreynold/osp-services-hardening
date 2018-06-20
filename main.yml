@@ -1,10 +1,13 @@
 ---
-- name: This Will harden RHOSP services per the hardening guide
+- name: This will harden RHOSP services per the Red Hat OSP hardening guide
   hosts: overcloud
   become: yes
 
 
 
   tasks:
-     - name: Testing ping
-       ping:
+     - name: To disable validation of self-signed certificates
+       lineinfile:
+         path: /etc/nova/api-paste.lineinfile
+         line: "insecure=False"
+         insertafter: "[filter:authtoken]"
