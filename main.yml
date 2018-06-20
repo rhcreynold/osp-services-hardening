@@ -13,7 +13,7 @@
           state: present
 
      - name: Get running containers to for neutron
-       command: "docker ps -q -f "name=neutron*"
+       command: "docker ps -q -f "name=neutron*""
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
