@@ -1,8 +1,8 @@
 ---
 - name: This Will harden RHOSP services per the hardening guide
-  hosts: all
+  hosts: overcloud
   become: yes
-  ansible_user: heat-admin
+
 
 
   tasks:
