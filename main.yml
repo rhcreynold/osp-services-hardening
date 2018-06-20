@@ -6,13 +6,14 @@
 
 
   tasks:
-     - name: Get running containers to for neutron
+     - name: Get running container ID
        command: "docker ps -q"
        register: neutron_containers
 
      - name: Get current config from running container to disable validation of self-signed certificates
        command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/"
        with_items: "{{ neutron_containers.stdout_lines }}"
+       ignore_errors: true
 
      - name: To disable validation of self-signed certificates
        lineinfile:
