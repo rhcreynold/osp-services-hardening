@@ -60,15 +60,15 @@
        with_items: "{{ running_containers.stdout_lines }}"
        ignore_errors: true
 
-     - name: Enable HSTS for host
+     - name: Enable HSTS for host PT2
        lineinfile:
          path: /etc/httpd/conf.d/ssl.conf
          line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
          insertafter: "<VirtualHost _default_:443>"
 
-     - name: Enable HSTS for containers
+     - name: Enable HSTS for containers PT2
        lineinfile:
-         path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
+         path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/httpd.conf
          line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
          insertafter: "<VirtualHost _default_:443>"
        ignore_errors: true
