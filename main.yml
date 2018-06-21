@@ -188,28 +188,28 @@
 
      - name: Setting user and group file permissions for cinder for hosts
        file:
-         path: /etc/cinder/"{{ item }}"
+         path: {{ item }}
          owner: root
          group: cinder
          mode: 640
-         with_items:
-           - cinder.conf
-           - api-paste.ini
-           - policy.json
-           - rootwrap.conf
+       with_items:
+         - /etc/cinder/cinder.conf
+         - /etc/cinder/api-paste.ini
+         - /etc/cinder/policy.json
+         - /etc/cinder/rootwrap.conf
        ignore_errors: true
        tags: cinder_perms
 
      - name: Setting user and group file permissions for cinder for containers
        file:
-         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/"{{ item }}"
+         path: {{ item }}
          owner: root
          group: cinder
          mode: 640
-         with_items:
-           - cinder.conf
-           - api-paste.ini
-           - policy.json
-           - rootwrap.conf
+       with_items:
+         - /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         - /var/lib/config-data/puppet-generated/cinder/etc/cinder/api-paste.ini
+         - /var/lib/config-data/puppet-generated/cinder/etc/cinder/policy.json
+         - /var/lib/config-data/puppet-generated/cinder/etc/cinder/rootwrap.conf
        ignore_errors: true
        tags: cinder_perms
