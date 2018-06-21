@@ -92,6 +92,6 @@
        ignore_errors: true
 
      - name: Creating the default policy.json for each service
-       command: "/bin/oslopolicy-policy-generator --namespace {{ item }} --ouput-file /var/lib/config-data/puppet-generated/{{ item }}/etc/{{ item }}/policy.json"
+       command: "/bin/oslopolicy-policy-generator --namespace {{ item }} --output-file /var/lib/config-data/puppet-generated/{{ item }}/etc/{{ item }}/policy.json"
        with_items: "{{ osp_services }}"
        ignore_errors: true
