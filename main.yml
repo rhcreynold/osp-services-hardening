@@ -123,5 +123,5 @@
        service:
           name: ksmtuned
           state: stopped
-       when: ('Compute:children' in group_names)
+       when: "'Compute' in group_names"
        tags: disable_ksm
