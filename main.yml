@@ -166,12 +166,13 @@
     #   ignore_errors: true
     #   tags: volume_wiping
 
-     - name: Enable volume wiping for hosts
+     - name: Enable volume wiping and shredding for hosts
        blockinfile:
          path: /etc/cinder/cinder.conf
          content: |
            lvm_type = thin
-         insertafter: "#lvm_type = auto"
+           volume_clear = shred
+         insertafter: "[DEFAULT]"
        ignore_errors: true
        tags: volume_wiping
 
@@ -184,20 +185,21 @@
 #       ignore_errors: true
 #       tags: volume_wiping
 
-     - name: Enable volume wiping for containers
+     - name: Enable volume wiping and shredding for containers
        blockinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          content: |
            lvm_type = thin
-         insertafter: "#lvm_type = auto"
+           volume_clear = shred
+         insertafter: "[DEFAULT]"
        ignore_errors: true
        tags: volume_wiping
 
-     - name: Enable shredding for containers
-       blockinfile:
-         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
-         content: |
-           volume_clear = shred
-         insertafter: "#volume_clear = zero"
-       ignore_errors: true
-       tags: volume_wiping
+#     - name: Enable shredding for containers
+#       blockinfile:
+#         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+#         content: |
+#           volume_clear = shred
+#         insertafter: "#volume_clear = zero"
+#       ignore_errors: true
+#       tags: volume_wiping
