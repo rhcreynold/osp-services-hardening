@@ -122,6 +122,6 @@
      - name: Disable KSM
        service:
           name: ksmtuned
-          state: disabled
+          state: stopped
        where: overcloud.children == "compute"
        tags: disable_ksm
