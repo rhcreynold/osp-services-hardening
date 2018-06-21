@@ -250,7 +250,7 @@
      - name: Enable glance_api_insecure to true
        lineinfile:
          path: /etc/cinder/cinder.conf
-         line: glance_api_insecure = true
+         line: glance_api_insecure = false
          insertafter: "#glance_api_insecure = false"
        ignore_errors: true
        tags: cinder_tls
