@@ -95,3 +95,26 @@
        command: "/bin/oslopolicy-policy-generator --namespace {{ item }} --output-file /var/lib/config-data/puppet-generated/{{ item }}/etc/{{ item }}/policy.json"
        with_items: "{{ osp_services }}"
        ignore_errors: true
+
+     - name: Get /etc/keystone/keystone.conf from running container to Domain specific auth
+       command: "docker cp \"{{ item }}\":/etc/keystone/keystone.conf /var/lib/config-data/puppet-generated/keystone/etc/keystone/"
+       with_items: "{{ running_containers.stdout_lines }}"
+       ignore_errors: true
+
+     - name: Enable Domain specific auth for hosts
+       blockinfile:
+         path: /etc/keystone/keystone.conf
+         insertafter: "[identity]"
+         content: |
+           domain_specific_drivers_enabled = True
+           domain_config_dir = /etc/keystone/domains
+       ignore_errors: true
+
+     - name: Enable Domain specific auth for containers
+       blockinfile:
+         path: /var/lib/config-data/puppet-generated/keystone/etc/keystone/keystone.conf
+         content: |
+           domain_specific_drivers_enabled = True
+           domain_config_dir = /etc/keystone/domains
+         insertafter: "[identity]"
+       ignore_errors: true
