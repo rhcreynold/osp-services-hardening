@@ -214,7 +214,7 @@
        tags: cinder_perms
 
      - name: Enable keystone cinder for hosts
-       blockinfile:
+       lineinfile:
          path: /etc/cinder/cinder.conf
          lineinfile: auth_strategy = keystone
          insertafter: "#auth_strategy = keystone"
