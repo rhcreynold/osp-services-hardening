@@ -146,8 +146,7 @@
 
      - name: disable KSM service on compute nodes
        service:
-          name: "{{ i
-          tem }}"
+          name: "{{ item }}"
           enabled: no
        when: "'Compute' in group_names"
        with_items:
@@ -188,7 +187,7 @@
 
      - name: Setting user and group file permissions for cinder for hosts
        file:
-         path: {{ item }}
+         path: "{{ item }}"
          owner: root
          group: cinder
          mode: 640
@@ -202,7 +201,7 @@
 
      - name: Setting user and group file permissions for cinder for containers
        file:
-         path: {{ item }}
+         path: "{{ item }}"
          owner: root
          group: cinder
          mode: 640
