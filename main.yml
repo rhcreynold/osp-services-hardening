@@ -153,3 +153,8 @@
           - ksmtuned
           - ksm
        tags: disable_ksm
+
+     - name: Delete all PageKSM in the systems
+       command: "echo 2 >/sys/kernel/mm/ksm/run"
+       when: "'Compute' in group_names"
+       tags: disable_ksm
