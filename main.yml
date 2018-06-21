@@ -212,3 +212,19 @@
          - /var/lib/config-data/puppet-generated/cinder/etc/cinder/rootwrap.conf
        ignore_errors: true
        tags: cinder_perms
+
+     - name: Enable keystone cinder for hosts
+       blockinfile:
+         path: /etc/cinder/cinder.conf
+         lineinfile: auth_strategy = keystone
+         insertafter: "#auth_strategy = keystone"
+       ignore_errors: true
+       tags: cinder_keystone
+
+     - name: Enable keystone cinder for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         line: auth_strategy = keystone
+         insertafter: "#auth_strategy = keystone"
+       ignore_errors: true
+       tags: cinder_keystone
