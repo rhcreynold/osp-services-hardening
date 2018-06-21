@@ -172,7 +172,7 @@
          content: |
            lvm_type = thin
            volume_clear = shred
-         insertafter: "DEFAULT"
+         insertbefore: "# The maximum number of items that a collection resource returns in a single"
        ignore_errors: true
        tags: volume_wiping
 
@@ -191,7 +191,7 @@
          content: |
            lvm_type = thin
            volume_clear = shred
-         insertafter: "DEFAULT"
+         insertbefore: "# The maximum number of items that a collection resource returns in a single"
        ignore_errors: true
        tags: volume_wiping
 
