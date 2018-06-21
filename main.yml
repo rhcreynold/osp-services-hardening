@@ -311,3 +311,19 @@
          backup: yes
        ignore_errors: true
        tags: cinder_tls
+
+     - name: Enable nova barbican for key_manager for hosts
+       lineinfile:
+         path: /etc/nova/nova.conf
+         line: backend=barbican
+         insertafter: "#backend=barbican"
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable nova barbican for key_manager for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/nova/etc/nova/nova.conf
+         line: backend=barbican
+         insertafter: "#backend=barbican"
+       ignore_errors: true
+       tags: cinder_tls
