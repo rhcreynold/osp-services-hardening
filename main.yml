@@ -480,3 +480,28 @@
          - /var/lib/config-data/puppet-generated/neutron/etc/neutron/rootwrap.conf
        ignore_errors: true
        tags: neutron_perms
+
+     - name: Enable keystone neutron for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/neutron.conf
+         line: auth_strategy = keystone
+         insertafter: "#auth_strategy = keystone"
+       ignore_errors: true
+       tags: neutron_keystone
+
+     - name: Enable keystone neutron for containers
+       lineinfile:
+         path: /etc/neutron/neutron.conf
+         line: auth_strategy = keystone
+         insertafter: "#auth_strategy = keystone"
+       ignore_errors: true
+       tags: neutron_keystone
+
+     - name: Enable TLS auth for neutron
+       replace:
+         path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/neutron.conf
+         regexp: 'auth_uri=http:'
+         replace: 'auth_uri=https:'
+         backup: yes
+       ignore_errors: true
+       tags: neutron_tls
