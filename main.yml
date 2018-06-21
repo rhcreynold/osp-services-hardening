@@ -234,8 +234,23 @@
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          regexp: 'auth_uri=http:'
          replace: 'auth_uri=https:'
-         #regexp: '(\s+)auth_uri=http:(\s+.*)?$'
-         #replace: '\1auth_uri=https\2'
          backup: yes
        ignore_errors: true
        tags: cinder_tls
+
+     - name: Ensure block storage uses TLS
+       replace:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         regexp: 'glance_api_servers=http:'
+         replace: 'glance_api_servers=https:'
+         backup: yes
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable glance_api_insecure to true
+       lineinfile:
+         path: /etc/cinder/cinder.conf
+         line: glance_api_insecure = true
+         insertafter: "#glance_api_insecure = false"
+       ignore_errors: true
+       tags: cinder_keystone
