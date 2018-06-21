@@ -505,3 +505,19 @@
          backup: yes
        ignore_errors: true
        tags: neutron_tls
+
+     - name: Enable TLS on Neutron API Server for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/neutron.conf
+         line: use_ssl = true
+         insertafter: "#use_ssl = false"
+       ignore_errors: true
+       tags: neutron_ssl
+
+     - name: Enable TLS on Neutron API Server for hosts
+       lineinfile:
+         path: /etc/neutron/neutron.conf
+         line: use_ssl = true
+         insertafter: "#use_ssl = false"
+       ignore_errors: true
+       tags: neutron_ssl
