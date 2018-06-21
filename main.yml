@@ -136,7 +136,7 @@
 
      - name: Stopping KSM service on compute nodes
        service:
-          name: {{ item }}
+          name: "{{ item }}"
           state: stopped
        when: "'Compute' in group_names"
        with_items:
@@ -146,7 +146,7 @@
 
      - name: disable KSM service on compute nodes
        service:
-          name: {{ item }}
+          name: "{{ item }}"
           enabled: no
        when: "'Compute' in group_names"
        with_items:
