@@ -263,7 +263,6 @@
        ignore_errors: true
        tags: cinder_tls
 
-
      - name: Enable glance_api_insecure to false for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
@@ -288,10 +287,27 @@
        ignore_errors: true
        tags: cinder_tls
 
-     - name: Enable max_request_body_size for hosts
+     - name: Enable max_request_body_size for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          line: max_request_body_size = 114688
          insertafter: "#max_request_body_size = 114688"
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable cinder barbican for key_manager for hosts
+       lineinfile:
+         path: /etc/cinder/cinder.conf
+         line: backend=barbican
+         insertafter: "#backend=barbican"
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable cinder barbican for key_manager for containers
+       replace:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         regexp: 'backend=cinder.keymgr.conf_key_mgr.ConfKeyManager'
+         replace: 'backend=barbican'
+         backup: yes
        ignore_errors: true
        tags: cinder_tls
