@@ -451,3 +451,32 @@
          insertbefore: "# The number of seconds to wait before respawning the ovsdb monitor after"
        ignore_errors: true
        tags: ovs_secure
+
+
+     - name: Setting user and group file permissions for neutron for hosts
+       file:
+         path: "{{ item }}"
+         owner: root
+         group: neutron
+         mode: 640
+       with_items:
+         - /etc/neutron/neutron.conf
+         - /etc/neutron/api-paste.ini
+         - /etc/neutron/policy.json
+         - /etc/neutron/rootwrap.conf
+       ignore_errors: true
+       tags: neutron_perms
+
+     - name: Setting user and group file permissions for neutron for containers
+       file:
+         path: "{{ item }}"
+         owner: root
+         group: neutron
+         mode: 640
+       with_items:
+         - /var/lib/config-data/puppet-generated/neutron/etc/neutron/neutron.conf
+         - /var/lib/config-data/puppet-generated/neutron/etc/neutron/api-paste.ini
+         - /var/lib/config-data/puppet-generated/neutron/etc/neutron/policy.json
+         - /var/lib/config-data/puppet-generated/neutron/etc/neutron/rootwrap.conf
+       ignore_errors: true
+       tags: neutron_perms
