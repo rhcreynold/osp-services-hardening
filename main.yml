@@ -175,14 +175,14 @@
        ignore_errors: true
        tags: volume_wiping
 
-     - name: Enable shredding for hosts
-       blockinfile:
-         path: /etc/cinder/cinder.conf
-         content: |
-           volume_clear = shred
-         insertafter: "#volume_clear = zero"
-       ignore_errors: true
-       tags: volume_wiping
+#     - name: Enable shredding for hosts
+#       blockinfile:
+#         path: /etc/cinder/cinder.conf
+#         content: |
+#           volume_clear = shred
+#         insertafter: "#volume_clear = zero"
+#       ignore_errors: true
+#       tags: volume_wiping
 
      - name: Enable volume wiping for containers
        blockinfile:
