@@ -122,7 +122,6 @@
      - name: Disable KSM
        service:
           name: ksmtuned
-          state: started
-       #where: overcloud.Compute.children == "*"
-       hosts: Compute
+          state: stopped
+       when: ('Compute:children' in group_names)
        tags: disable_ksm
