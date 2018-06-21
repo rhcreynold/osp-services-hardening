@@ -68,12 +68,13 @@
        ignore_errors: true
 
      - name: Enable HSTS for containers PT2
-       lineinfile:
+       blockinfile:
          path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/ssl.conf
-         line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\" <IfModule mod_rewrite.c>
+         content: |
+           <IfModule mod_rewrite.c>
                 RewriteEngine On
                 RewriteCond %{HTTPS} off
                 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
-                </IfModule>"
-         insertafter: "<VirtualHost _default_:443>"
+           </IfModule>"
+         insertafter: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
        ignore_errors: true
