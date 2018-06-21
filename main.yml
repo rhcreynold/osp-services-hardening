@@ -233,6 +233,6 @@
        replace:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          regex: '([auth_url=http:])'
-         replace: auth_uri=https:
+         replace: "auth_uri=https:"
          backup: yes
        tags: cinder_tls
