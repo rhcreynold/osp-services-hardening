@@ -191,7 +191,7 @@
          content: |
            lvm_type = thin
            volume_clear = shred
-         insertafter: "# From cinder"
+         insertbefore: "# From cinder"
        ignore_errors: true
        tags: volume_wiping
 
