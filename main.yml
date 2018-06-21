@@ -118,3 +118,10 @@
            domain_config_dir = /etc/keystone/domains
          insertafter: "#domain_specific_drivers_enabled = false"
        ignore_errors: true
+
+     - name: Disable KSM
+       service:
+          name: ksmtuned
+          state: disabled
+       where: overcloud.children == "compute"
+       tags: disable_ksm
