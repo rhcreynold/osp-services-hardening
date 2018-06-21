@@ -2,7 +2,19 @@
 - name: This will harden RHOSP services per the Red Hat OSP hardening guide
   hosts: all
   become: yes
-
+  vars:
+    osp_services:
+      - ironic
+      - containers
+      - gnocchi
+      - octavia
+      - neutron
+      - ec2api
+      - nova
+      - ironic-inspector
+      - keystone
+      - glance
+      - mistral
 
 
   tasks:
@@ -72,9 +84,13 @@
          path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/ssl.conf
          content: |
            <IfModule mod_rewrite.c>
-                RewriteEngine On
-                RewriteCond %{HTTPS} off
-                RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+              RewriteEngine On
+              RewriteCond %{HTTPS} off
+              RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
            </IfModule>"
          insertafter: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
        ignore_errors: true
+
+     - name: Creating the default policy.json for each service
+       command: "/bin/oslopolicy-policy-generator --namespace {{ item }} > /var/lib/config-data/puppet-generated/{{ item }}/etc/{{ item }}/policy.json"
+       with_items: osp_services
