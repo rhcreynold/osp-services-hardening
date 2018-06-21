@@ -188,7 +188,7 @@
 
      - name: Setting user and group file permissions for cinder for hosts
        file:
-         path: /etc/cinder/{{ item }}
+         path: /etc/cinder/"{{ item }}"
          owner: root
          group: cinder
          mode: 640
@@ -202,7 +202,7 @@
 
      - name: Setting user and group file permissions for cinder for containers
        file:
-         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/{{ item }}
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/"{{ item }}"
          owner: root
          group: cinder
          mode: 640
