@@ -104,7 +104,7 @@
      - name: Enable Domain specific auth for hosts
        blockinfile:
          path: /etc/keystone/keystone.conf
-         insertafter: "[identity]"
+         insertafter: "#domain_specific_drivers_enabled = false"
          content: |
            domain_specific_drivers_enabled = True
            domain_config_dir = /etc/keystone/domains
@@ -116,5 +116,5 @@
          content: |
            domain_specific_drivers_enabled = True
            domain_config_dir = /etc/keystone/domains
-         insertafter: "[identity]"
+         insertafter: "#domain_specific_drivers_enabled = false"
        ignore_errors: true
