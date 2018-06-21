@@ -328,6 +328,12 @@
        ignore_errors: true
        tags: cinder_tls
 
+     - name: Get /etc/keystone/keystone.conf from running container to Domain specific auth
+       command: "docker cp \"{{ item }}\":/etc/neutron/policy.json /var/lib/config-data/puppet-generated/neutron/etc/neutron/"
+       with_items: "{{ running_containers.stdout_lines }}"
+       ignore_errors: true
+       tags: neutron_secure
+
      - name: Enable QoS rule QosDscpMarkingRule for firewall usage for containers
        blockinfile:
          path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/policy.json
@@ -353,5 +359,13 @@
            "update_dscp_marking_rule": "rule:admin_only",
            "get_rule_type": "rule:regular_user",
          insertafter: EOF
+       ignore_errors: true
+       tags: neutron_secure
+
+     - name: Enable neutron bind_port for containers
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/neutron.conf
+         line: bind_port = 9696
+         insertafter: "#bind_port = 9696"
        ignore_errors: true
        tags: neutron_secure
