@@ -170,7 +170,7 @@
        lineinfile:
          path: /etc/cinder/cinder.conf
          line: lvm_type = thin
-         insertafter: "[DEFAULT]"
+         insertafter: '[DEFAULT]'
        ignore_errors: true
        tags: volume_wiping
 
@@ -178,7 +178,7 @@
        lineinfile:
          path: /etc/cinder/cinder.conf
          line: volume_clear = shred
-         insertafter: "lvm_type = thin"
+         insertafter: 'lvm_type = thin'
        ignore_errors: true
        tags: volume_wiping
 
@@ -186,7 +186,7 @@
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          line: lvm_type = thin
-         insertafter: "[DEFAULT]"
+         insertafter: '[DEFAULT]'
        ignore_errors: true
        tags: volume_wiping
 
@@ -194,6 +194,6 @@
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          line: volume_clear = shred
-         insertafter: "lvm_type = thin"
+         insertafter: 'lvm_type = thin'
        ignore_errors: true
        tags: volume_wiping
