@@ -191,7 +191,7 @@
         owner: root
         group: cinder
         mode: 640
-      with_items:
+        loop:
           - cinder.conf
           - api-paste.ini
           - policy.json
@@ -204,7 +204,7 @@
         owner: root
         group: cinder
         mode: 640
-      with_items:
+        loop:
           - cinder.conf
           - api-paste.ini
           - policy.json
