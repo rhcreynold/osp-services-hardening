@@ -146,7 +146,8 @@
 
      - name: disable KSM service on compute nodes
        service:
-          name: "{{ item }}"
+          name: "{{ i
+          tem }}"
           enabled: no
        when: "'Compute' in group_names"
        with_items:
@@ -158,3 +159,45 @@
        command: "echo 2 >/sys/kernel/mm/ksm/run"
        when: "'Compute' in group_names"
        tags: disable_ksm
+
+     #- name: Get /etc/cinder/cinder.conf from running container for volume wiping
+    #   command: "docker cp \"{{ item }}\":/etc/cinder/cinder.conf /var/lib/config-data/puppet-generated/cinder/etc/cinder/"
+    #   with_items: "{{ running_containers.stdout_lines }}"
+    #   ignore_errors: true
+    #   tags: volume_wiping
+
+     - name: Enable volume wiping for hosts
+       blockinfile:
+         path: /etc/cinder/cinder.conf
+         content: |
+           lvm_type = thin
+         insertafter: "#lvm_type = auto"
+       ignore_errors: true
+       tags: volume_wiping
+
+     - name: Enable shredding for hosts
+       blockinfile:
+         path: /etc/cinder/cinder.conf
+         content: |
+           volume_clear = shred
+         insertafter: "#volume_clear = zero"
+       ignore_errors: true
+       tags: volume_wiping
+
+     - name: Enable volume wiping for containers
+       blockinfile:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         content: |
+           lvm_type = thin
+         insertafter: "#lvm_type = auto"
+       ignore_errors: true
+       tags: volume_wiping
+
+     - name: Enable shredding for containers
+       blockinfile:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         content: |
+           volume_clear = shred
+         insertafter: "#volume_clear = zero"
+       ignore_errors: true
+       tags: volume_wiping
