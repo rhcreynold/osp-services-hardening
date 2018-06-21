@@ -331,6 +331,7 @@
      - name: Enable QoS rule QosDscpMarkingRule for firewall usage for containers
        blockinfile:
          path: /var/lib/config-data/puppet-generated/neutron/etc/neutron/policy.json
+         create: yes
          content: |
            "get_policy_dscp_marking_rule": "rule:regular_user",
            "create_dscp_marking_rule": "rule:admin_only",
@@ -344,6 +345,7 @@
      - name: Enable QoS rule QosDscpMarkingRule for firewall usage for hosts
        blockinfile:
          path: /etc/neutron/policy.json
+         create: yes
          content: |
            "get_policy_dscp_marking_rule": "rule:regular_user",
            "create_dscp_marking_rule": "rule:admin_only",
