@@ -232,8 +232,10 @@
      - name: Enable TLS auth for cinder
        replace:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
-         regexp: '(\s+)auth_uri=http:(\s+.*)?$'
-         replace: '\1auth_uri=https\2'
+         regexp: 'auth_uri=http:'
+         replace: 'auth_uri=https:'
+         #regexp: '(\s+)auth_uri=http:(\s+.*)?$'
+         #replace: '\1auth_uri=https\2'
          backup: yes
        ignore_errors: true
        tags: cinder_tls
