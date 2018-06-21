@@ -187,11 +187,12 @@
        tags: volume_wiping
 
      - name: Setting user and group file permissions for cinder for hosts
+       file:
         path: /etc/cinder/"{{ item }}"
         owner: root
         group: cinder
         mode: 640
-        loop:
+        with_items:
           - cinder.conf
           - api-paste.ini
           - policy.json
@@ -200,11 +201,12 @@
       tags: cinder_perms
 
      - name: Setting user and group file permissions for cinder for containers
+       file:
         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/"{{ item }}"
         owner: root
         group: cinder
         mode: 640
-        loop:
+        with_items:
           - cinder.conf
           - api-paste.ini
           - policy.json
