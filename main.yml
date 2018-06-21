@@ -176,15 +176,6 @@
        ignore_errors: true
        tags: volume_wiping
 
-#     - name: Enable shredding for hosts
-#       blockinfile:
-#         path: /etc/cinder/cinder.conf
-#         content: |
-#           volume_clear = shred
-#         insertafter: "#volume_clear = zero"
-#       ignore_errors: true
-#       tags: volume_wiping
-
      - name: Enable volume wiping and shredding for containers
        blockinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
@@ -195,11 +186,26 @@
        ignore_errors: true
        tags: volume_wiping
 
-#     - name: Enable shredding for containers
-#       blockinfile:
-#         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
-#         content: |
-#           volume_clear = shred
-#         insertafter: "#volume_clear = zero"
-#       ignore_errors: true
-#       tags: volume_wiping
+     - name: Setting user and group file permissions for cinder for hosts
+        path: /etc/cinder/{{ item }}
+        owner: root
+        group: cinder
+        mode: 640
+      with_items:
+          - cinder.conf
+          - api-paste.ini
+          - policy.json
+          - rootwrap.conf
+      ignore_errors: true
+
+     - name: Setting user and group file permissions for cinder for containers
+        path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/{{ item }}
+        owner: root
+        group: cinder
+        mode: 640
+      with_items:
+          - cinder.conf
+          - api-paste.ini
+          - policy.json
+          - rootwrap.conf
+      ignore_errors: true
