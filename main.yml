@@ -197,8 +197,8 @@
           - api-paste.ini
           - policy.json
           - rootwrap.conf
-      ignore_errors: true
-      tags: cinder_perms
+       ignore_errors: true
+       tags: cinder_perms
 
      - name: Setting user and group file permissions for cinder for containers
        file:
@@ -211,5 +211,5 @@
           - api-paste.ini
           - policy.json
           - rootwrap.conf
-      ignore_errors: true
-      tags: cinder_perms
+       ignore_errors: true
+       tags: cinder_perms
