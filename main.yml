@@ -279,3 +279,19 @@
          insertafter: "#nas_secure_file_permissions = auto"
        ignore_errors: true
        tags: cinder_tls
+
+     - name: Enable max_request_body_size for hosts
+       lineinfile:
+         path: /etc/cinder/cinder.conf
+         line: max_request_body_size = 114688
+         insertafter: "#max_request_body_size = 114688"
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable max_request_body_size for hosts
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         line: max_request_body_size = 114688
+         insertafter: "#max_request_body_size = 114688"
+       ignore_errors: true
+       tags: cinder_tls
