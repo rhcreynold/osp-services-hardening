@@ -26,51 +26,60 @@
        #command: "docker cp \"{{ item }}\":/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/nova/"
        command: "docker cp nova_conductor:/etc/nova/api-paste.ini /var/lib/config-data/puppet-generated/nova/etc/nova/"
        ignore_errors: true
+       tags: self_certs
 
      - name: To disable validation of self-signed certificates for host
        lineinfile:
          path: /etc/nova/api-paste.ini
          line: "insecure=False"
          insertafter: "[filter:authtoken]"
+       tags: self_certs
 
      - name: To disable validation of self-signed certificates for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/nova/etc/nova/api-paste.ini
          line: "insecure=False"
          insertafter: "[filter:authtoken]"
+         tags: self_certs
 
      - name: creating the httpd folder to be used in the next step
        file:
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/
          state: directory
          mode: 0755
+       tags: hsts
 
      - name: Get /etc/httpd/conf/httpd.conf from running container to enable of HSTS
        command: "docker cp \"{{ item }}\":/etc/httpd/conf/httpd.conf /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf/"
        with_items: "{{ running_containers.stdout_lines }}"
        ignore_errors: true
+       tags: hsts
 
      - name: Enable HSTS for host
        lineinfile:
          path: /etc/httpd/conf/httpd.conf
          line: "LoadModule headers_module modules/mod_headers.so"
+       tags: hsts
 
      - name: Enable HSTS for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/httpd/etc/conf/httpd/httpd.conf
          line: "LoadModule headers_module modules/mod_headers.so"
        ignore_errors: true
+       tags: hsts
 
      - name: creating the httpd folder to be used in the next step
        file:
          path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/
          state: directory
          mode: 0755
+         tags: hsts
 
      - name: Get /etc/httpd/conf.d/ssl.conf from running container to enable of HSTS
        command: "docker cp \"{{ item }}\":/etc/httpd/conf.d/ssl.conf /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/"
        with_items: "{{ running_containers.stdout_lines }}"
        ignore_errors: true
+       tags: hsts
 
      - name: Enable HSTS for host PT2
        lineinfile:
@@ -78,6 +87,7 @@
          line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
          insertafter: "<VirtualHost _default_:443>"
        ignore_errors: true
+       tags: hsts
 
      - name: Enable HSTS for containers PT2
        blockinfile:
@@ -90,16 +100,19 @@
            </IfModule>"
          insertafter: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
        ignore_errors: true
+       tags: hsts
 
      - name: Creating the default policy.json for each service
        command: "/bin/oslopolicy-policy-generator --namespace {{ item }} --output-file /var/lib/config-data/puppet-generated/{{ item }}/etc/{{ item }}/policy.json"
        with_items: "{{ osp_services }}"
        ignore_errors: true
+       tags: domain_auth
 
      - name: Get /etc/keystone/keystone.conf from running container to Domain specific auth
        command: "docker cp \"{{ item }}\":/etc/keystone/keystone.conf /var/lib/config-data/puppet-generated/keystone/etc/keystone/"
        with_items: "{{ running_containers.stdout_lines }}"
        ignore_errors: true
+       tags: domain_auth
 
      - name: Enable Domain specific auth for hosts
        blockinfile:
@@ -109,6 +122,7 @@
            domain_config_dir = /etc/keystone/domains
          insertafter: "#domain_specific_drivers_enabled = false"
        ignore_errors: true
+       tags: domain_auth
 
      - name: Enable Domain specific auth for containers
        blockinfile:
@@ -118,10 +132,24 @@
            domain_config_dir = /etc/keystone/domains
          insertafter: "#domain_specific_drivers_enabled = false"
        ignore_errors: true
+       tags: domain_auth
 
-     - name: Disable KSM
+     - name: Stopping KSM service on compute nodes
        service:
-          name: ksmtuned
+          name: {{ item }}
           state: stopped
        when: "'Compute' in group_names"
+       with_items:
+          - ksmtuned
+          - ksm
+       tags: disable_ksm
+
+     - name: disable KSM service on compute nodes
+       service:
+          name: {{ item }}
+          enabled: no
+       when: "'Compute' in group_names"
+       with_items:
+          - ksmtuned
+          - ksm
        tags: disable_ksm
