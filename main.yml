@@ -216,7 +216,7 @@
      - name: Enable keystone cinder for hosts
        lineinfile:
          path: /etc/cinder/cinder.conf
-         lineinfile: auth_strategy = keystone
+         line: auth_strategy = keystone
          insertafter: "#auth_strategy = keystone"
        ignore_errors: true
        tags: cinder_keystone
