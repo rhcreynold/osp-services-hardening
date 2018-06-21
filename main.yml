@@ -172,7 +172,7 @@
          content: |
            lvm_type = thin
            volume_clear = shred
-         insertafter: "[DEFAULT]"
+         insertafter: "DEFAULT"
        ignore_errors: true
        tags: volume_wiping
 
@@ -191,7 +191,7 @@
          content: |
            lvm_type = thin
            volume_clear = shred
-         insertafter: "[DEFAULT]"
+         insertafter: "DEFAULT"
        ignore_errors: true
        tags: volume_wiping
 
