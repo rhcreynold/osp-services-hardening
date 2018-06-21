@@ -254,3 +254,11 @@
          insertafter: "#glance_api_insecure = false"
        ignore_errors: true
        tags: cinder_tls
+
+     - name: Enable nas_secure_file_permissions to false
+       lineinfile:
+         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
+         line: nas_secure_file_permissions = auto
+         insertafter: "#nas_secure_file_permissions = auto"
+       ignore_errors: true
+       tags: cinder_tls
