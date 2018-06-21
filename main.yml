@@ -72,4 +72,4 @@
          path: /var/lib/config-data/puppet-generated/httpd/etc/httpd/conf.d/httpd.conf
          line: "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\""
          insertafter: "<VirtualHost _default_:443>"
-       ignore_errors: true
+         ignore_errors: true
