@@ -197,6 +197,7 @@
           - policy.json
           - rootwrap.conf
       ignore_errors: true
+      tags: cinder_perms
 
      - name: Setting user and group file permissions for cinder for containers
         path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/{{ item }}
@@ -209,3 +210,4 @@
           - policy.json
           - rootwrap.conf
       ignore_errors: true
+      tags: cinder_perms
