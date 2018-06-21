@@ -247,7 +247,24 @@
        ignore_errors: true
        tags: cinder_tls
 
-     - name: Enable glance_api_insecure to false
+     - name: Enable glance_api_insecure to false for hosts
+       lineinfile:
+         path: /etc/cinder/cinder.conf
+         line: glance_api_insecure = false
+         insertafter: "#glance_api_insecure = false"
+       ignore_errors: true
+       tags: cinder_tls
+
+     - name: Enable nas_secure_file_permissions to false for hosts
+       lineinfile:
+         path: /etc/cinder/cinder.conf
+         line: nas_secure_file_permissions = auto
+         insertafter: "#nas_secure_file_permissions = auto"
+       ignore_errors: true
+       tags: cinder_tls
+
+
+     - name: Enable glance_api_insecure to false for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          line: glance_api_insecure = false
@@ -255,7 +272,7 @@
        ignore_errors: true
        tags: cinder_tls
 
-     - name: Enable nas_secure_file_permissions to false
+     - name: Enable nas_secure_file_permissions to false for containers
        lineinfile:
          path: /var/lib/config-data/puppet-generated/cinder/etc/cinder/cinder.conf
          line: nas_secure_file_permissions = auto
