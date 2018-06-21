@@ -253,4 +253,4 @@
          line: glance_api_insecure = true
          insertafter: "#glance_api_insecure = false"
        ignore_errors: true
-       tags: cinder_keystone
+       tags: cinder_tls
